@@ -1,3 +1,4 @@
+import SquareButton from "@/components/UI/SquareButton";
 import { createRoom, getMembersInfo } from "@/lib/firebase/realtimeDB";
 
 const Login = () => {
@@ -14,8 +15,16 @@ const Login = () => {
   };
   return (
     <div>
-      <div onClick={() => confirm()}>confirm</div>
-      <div onClick={() => createRoomProcess()}>create room</div>
+      <SquareButton
+        value="作成"
+        btnColor="white"
+        handleButton={() => confirm()}
+      />
+      <SquareButton
+        value="参加"
+        btnColor="orange"
+        handleButton={() => createRoomProcess()}
+      />
     </div>
   );
 };
