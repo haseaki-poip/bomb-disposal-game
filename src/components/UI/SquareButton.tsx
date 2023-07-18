@@ -1,5 +1,5 @@
 type Props = {
-  value: String;
+  value: string;
   btnColor: "orange" | "red" | "blue" | "white";
   handleButton: () => void;
 };
