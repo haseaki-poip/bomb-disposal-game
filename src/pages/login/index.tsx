@@ -1,19 +1,26 @@
 import FormSection from "@/components/UI/FormSection";
 import SquareButton from "@/components/UI/SquareButton";
-import { createRoom, getMembersInfo } from "@/lib/firebase/realtimeDB";
+import { saveCookiesInRoom } from "@/lib/cookies/cookies";
+import { createRoom } from "@/lib/firebase/realtimeDB";
+import { useRouter } from "next/router";
 
 const Login = () => {
-  const confirm = async () => {
-    await getMembersInfo("12345");
-  };
+  const router = useRouter();
+
   const createRoomProcess = async () => {
     const response = await createRoom();
     if (!response) {
       return;
     }
     const roomId = response.roomId;
-    const selectId = response.secretId;
+    const secretId = response.secretId;
+    const userId = response.userId;
+
+    saveCookiesInRoom(secretId, userId);
+
+    router.push(`/waiting/${roomId}`);
   };
+
   return (
     <div className="w-full h-full min-h-screen bg-login-main-color pt-16 flex flex-col items-center justify-center">
       <div className="w-full flex justify-center">
@@ -21,7 +28,7 @@ const Login = () => {
           <SquareButton
             value="作成"
             btnColor="white"
-            handleButton={() => confirm()}
+            handleButton={() => createRoomProcess()}
           />
         </FormSection>
       </div>

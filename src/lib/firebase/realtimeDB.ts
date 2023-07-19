@@ -40,6 +40,7 @@ export const createRoom = async () => {
   return {
     roomId: roomId,
     secretId: secretId,
+    userId: 0,
   };
 };
 
