@@ -1,3 +1,4 @@
+import EditUserName from "@/components/WaitingRoom/EditUserName";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -6,7 +7,7 @@ const WaitingRoom = () => {
   const { roomId } = router.query;
 
   const shareRoomId = () => {
-    const waitingRoomUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${roomId}`;
+    const waitingRoomUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/login?roomId=${roomId}`;
     const shareText = `Bomb Disposalゲームへの招待です。\nroom id: ${roomId}\n以下のURLにアクセスしてください。\n${waitingRoomUrl}`;
 
     if (navigator.share) {
@@ -32,6 +33,7 @@ const WaitingRoom = () => {
           <Image src="/svg/share.svg" width="28" height="28" alt="share" />
         </div>
       </div>
+      <EditUserName />
     </div>
   );
 };
