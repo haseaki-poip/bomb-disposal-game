@@ -43,7 +43,6 @@ const Login = () => {
       if (e instanceof CustomError) {
         alert(e.message);
       } else {
-        console.log(e);
         alert("エラーが発生しました");
       }
     }

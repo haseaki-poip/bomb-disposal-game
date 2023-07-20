@@ -1,6 +1,8 @@
 import { ref, update, set, push, get, child } from "firebase/database";
 import { realtimeDB } from "./firebase";
 import { CustomError } from "../error";
+import { MembersInfoListType, UserInfoType } from "@/types/users";
+import { roomsInfoType } from "@/types/rooms";
 
 // シークレットIDの生成
 const generateSecretId = (): string => {
@@ -24,14 +26,14 @@ export const createRoom = async () => {
   const postListRefRooms = ref(realtimeDB, "/");
   const newPostRefRooms = push(postListRefRooms);
   await set(newPostRefRooms, {
-    rooms: { secret_id: secretId, status: "waiting" },
+    rooms: { secret_id: secretId, status: "waiting" } satisfies roomsInfoType,
     members: {
       members_list: [
         {
           user_name: "user1",
           user_type: "admin",
         },
-      ],
+      ] satisfies MembersInfoListType,
     },
   });
 
@@ -47,6 +49,7 @@ export const createRoom = async () => {
   };
 };
 
+// ルーム参加
 export const loginRoom = async (roomId: string) => {
   const dbRef = ref(realtimeDB);
   const snapshotRooms = await get(child(dbRef, `${roomId}/rooms`));
@@ -55,7 +58,7 @@ export const loginRoom = async (roomId: string) => {
     throw new CustomError("ルームが存在しません。");
   }
 
-  const secretId = roomsInfo.secretId;
+  const secretId = roomsInfo.secret_id;
 
   const snapshotMembers = await get(child(dbRef, `${roomId}/members`));
   const membersInfo = await snapshotMembers.val();
@@ -64,19 +67,21 @@ export const loginRoom = async (roomId: string) => {
     throw new CustomError("ルームが存在しません。");
   }
 
-  const membersInfoList = membersInfo.members_list;
+  const membersInfoList: MembersInfoListType = membersInfo.members_list;
   if (membersInfoList.length >= 8) {
     throw new CustomError(
       "ルーム内の人数がすでに上限に達しているため参加できません。"
     );
   }
 
+  // 追加するUser情報を作成
   const userId = membersInfoList.length;
   const userName = `user${userId}`;
-  const userInfo = {
+  const userInfo: UserInfoType = {
     user_name: userName,
     user_type: "normal",
   };
+
   await update(child(dbRef, `${roomId}/members`), {
     members_list: [...membersInfoList, userInfo],
   });
@@ -86,12 +91,4 @@ export const loginRoom = async (roomId: string) => {
     secretId: secretId,
     userId: userId,
   };
-};
-
-// idからメンバー情報取得
-export const getMembersInfo = async (roomId: string) => {
-  const dbRef = ref(realtimeDB);
-  const snapshot = await get(child(dbRef, `${roomId}/members`));
-  const membesInfoList = (await snapshot.val()) ?? null;
-  return membesInfoList;
 };
