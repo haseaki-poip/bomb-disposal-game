@@ -1,14 +1,13 @@
-import { memo } from "react";
 import { useState } from "react";
 import Image from "next/image";
 
-// eslint-disable-next-line react/display-name
-const EditUserName = memo(() => {
-  const [userName, setUserName] = useState("user0");
+const EditUserName = ({ userName }: { userName: string }) => {
+  const [editedUserName, setEditedUserName] = useState(userName);
   const [isEdit, setIsEdit] = useState(false);
-  const onChangeUserName = (userName: string) => {
+
+  const onChangeUserName = (editingUserName: string) => {
     setIsEdit(true);
-    setUserName(userName);
+    setEditedUserName(editingUserName);
   };
 
   const saveUserName = () => {
@@ -23,7 +22,7 @@ const EditUserName = memo(() => {
       <label>
         <input
           className="w-60 h-full outline-none bg-transparent text-lg text-center text-white"
-          value={userName}
+          value={editedUserName}
           onChange={(e) => onChangeUserName(e.target.value)}
         />
         {isEdit ? null : (
@@ -48,5 +47,6 @@ const EditUserName = memo(() => {
       ) : null}
     </div>
   );
-});
+};
+
 export default EditUserName;

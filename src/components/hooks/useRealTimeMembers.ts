@@ -3,7 +3,7 @@ import { ref, onValue } from "firebase/database";
 import { realtimeDB } from "@/lib/firebase/firebase";
 import { MembersInfoListType } from "@/types/users";
 
-const useRealTimeMembers = (roomId: string | string[] | undefined) => {
+const useRealTimeMembers = (roomId: string | undefined) => {
   const [membersInfoList, setMembersInfoList] = useState<MembersInfoListType>(
     []
   );
@@ -26,7 +26,7 @@ const useRealTimeMembers = (roomId: string | string[] | undefined) => {
   }, []);
 
   return {
-    membersInfoList,
+    membersInfoList: membersInfoList,
   };
 };
 

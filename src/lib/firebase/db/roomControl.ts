@@ -46,7 +46,7 @@ export const createRoom = async () => {
     members: {
       members_list: [
         {
-          user_name: "user1",
+          user_name: "user0",
           user_type: "admin",
         },
       ] satisfies MembersInfoListType,
