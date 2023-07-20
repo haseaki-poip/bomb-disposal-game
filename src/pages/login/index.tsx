@@ -2,7 +2,7 @@ import FormSection from "@/components/UI/FormSection";
 import SquareButton from "@/components/UI/SquareButton";
 import { saveCookiesInRoom } from "@/lib/cookies/cookies";
 import { CustomError } from "@/lib/error";
-import { createRoom, loginRoom } from "@/lib/firebase/realtimeDB";
+import { createRoom, loginRoom } from "@/lib/firebase/db/roomControl";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 

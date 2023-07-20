@@ -10,9 +10,11 @@ const EditUserName = memo(() => {
     setIsEdit(true);
     setUserName(userName);
   };
+
   const saveUserName = () => {
     setIsEdit(false);
   };
+
   return (
     <div className="w-72 h-12 mt-12 mx-auto border-[1px] border-white rounded-lg relative">
       <div className="absolute top-0 left-0 -translate-y-full text-white text-xs">

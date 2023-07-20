@@ -1,8 +1,8 @@
 import { ref, update, set, push, get, child } from "firebase/database";
-import { realtimeDB } from "./firebase";
-import { CustomError } from "../error";
+import { realtimeDB } from "../firebase";
+import { CustomError } from "../../error";
 import { MembersInfoListType, UserInfoType } from "@/types/users";
-import { roomsInfoType } from "@/types/rooms";
+import { RoomsInfoType } from "@/types/rooms";
 
 // シークレットIDの生成
 const generateSecretId = (): string => {
@@ -19,6 +19,22 @@ const generateSecretId = (): string => {
   return secretId;
 };
 
+// ルームの確認
+export const confirmRoom = async (roomId: string, secretId: string) => {
+  const dbRef = ref(realtimeDB);
+  const snapshotRooms = await get(child(dbRef, `${roomId}/rooms`));
+  const roomsInfo: RoomsInfoType = await snapshotRooms.val();
+
+  if (!roomsInfo) {
+    throw new CustomError("ルームが存在しません。");
+  }
+  if (roomsInfo.secret_id != secretId) {
+    throw new CustomError("secretIdが一致しませんでした。");
+  }
+
+  return roomsInfo.status;
+};
+
 // ルームの作成
 export const createRoom = async () => {
   const secretId = generateSecretId();
@@ -26,7 +42,7 @@ export const createRoom = async () => {
   const postListRefRooms = ref(realtimeDB, "/");
   const newPostRefRooms = push(postListRefRooms);
   await set(newPostRefRooms, {
-    rooms: { secret_id: secretId, status: "waiting" } satisfies roomsInfoType,
+    rooms: { secret_id: secretId, status: "waiting" } satisfies RoomsInfoType,
     members: {
       members_list: [
         {
@@ -53,7 +69,7 @@ export const createRoom = async () => {
 export const loginRoom = async (roomId: string) => {
   const dbRef = ref(realtimeDB);
   const snapshotRooms = await get(child(dbRef, `${roomId}/rooms`));
-  const roomsInfo = await snapshotRooms.val();
+  const roomsInfo: RoomsInfoType = await snapshotRooms.val();
   if (!roomsInfo) {
     throw new CustomError("ルームが存在しません。");
   }

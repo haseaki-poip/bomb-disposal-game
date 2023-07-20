@@ -1,6 +1,11 @@
 import EditUserName from "@/components/WaitingRoom/EditUserName";
+import { withCookiesServerSideProps } from "@/utils/withCookiesServerSideProps";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import nookies from "nookies";
+import { CustomError } from "@/lib/error";
+import { confirmRoom } from "@/lib/firebase/db/roomControl";
 
 const WaitingRoom = () => {
   const router = useRouter();
@@ -22,6 +27,36 @@ const WaitingRoom = () => {
       alert("お使いのデバイスではシェア機能を利用できません");
     }
   };
+
+  useEffect(() => {
+    const cookies = nookies.get();
+    const secretId = cookies.secretId;
+    const userId = cookies.userId;
+
+    if (!secretId || !userId || !roomId) {
+      router.push("/login");
+      return;
+    }
+
+    // cookiesをもとにroomに参加できる資格があるのか確認
+    (async () => {
+      try {
+        const roomStatus = await confirmRoom(roomId as string, secretId);
+        if (roomStatus == "finish") {
+          throw new CustomError("すでにルームは終了しています");
+        }
+      } catch (e) {
+        if (e instanceof CustomError) {
+          alert(e.message);
+        } else {
+          alert("エラーが発生しました。ログイン画面に戻ります。");
+        }
+        router.push("/login");
+        return;
+      }
+    })();
+  }, []);
+
   return (
     <div className="w-full h-full min-h-screen bg-login-main-color pt-16">
       <div className="w-fit mx-auto relative">
@@ -37,5 +72,11 @@ const WaitingRoom = () => {
     </div>
   );
 };
+
+export const getServerSideProps = withCookiesServerSideProps(async () => {
+  return {
+    props: {},
+  };
+});
 
 export default WaitingRoom;
