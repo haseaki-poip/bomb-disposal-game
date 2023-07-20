@@ -1,5 +1,4 @@
 import EditUserName from "@/components/WaitingRoom/EditUserName";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import nookies from "nookies";
@@ -12,11 +11,13 @@ const WaitingRoom = () => {
   const { roomId } = router.query;
 
   useEffect(() => {
+    if (!roomId) return;
+
     const cookies = nookies.get();
     const secretId = cookies.secretId;
     const userId = cookies.userId;
 
-    if (!secretId || !userId || !roomId) {
+    if (!secretId || !userId) {
       router.push("/login");
       return;
     }
@@ -38,14 +39,14 @@ const WaitingRoom = () => {
         return;
       }
     })();
-  }, []);
+  }, [roomId]);
 
   return (
     <div className="w-full h-full min-h-screen bg-login-main-color pt-16">
       <div className="w-fit mx-auto relative">
         <h2 className="text-center text-white font-bold text-xl">{roomId}</h2>
         <div className="absolute top-1/2 right-0 translate-x-10 -translate-y-1/2">
-          <ShareButton />
+          <ShareButton roomId={roomId as string} />
         </div>
       </div>
       <EditUserName />

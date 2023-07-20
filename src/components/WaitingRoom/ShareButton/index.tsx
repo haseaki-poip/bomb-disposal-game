@@ -1,9 +1,8 @@
 import Image from "next/image";
-import router from "next/router";
+import { memo } from "react";
 
-const ShareButton = () => {
-  const { roomId } = router.query;
-
+// eslint-disable-next-line react/display-name
+const ShareButton = memo((roomId: { roomId: string }) => {
   const shareRoomId = () => {
     const waitingRoomUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/login?roomId=${roomId}`;
     const shareText = `Bomb Disposalゲームへの招待です。\nroom id: ${roomId}\n以下のURLにアクセスしてください。\n${waitingRoomUrl}`;
@@ -26,6 +25,6 @@ const ShareButton = () => {
       <Image src="/svg/share.svg" width="28" height="28" alt="share" />
     </div>
   );
-};
+});
 
 export default ShareButton;
