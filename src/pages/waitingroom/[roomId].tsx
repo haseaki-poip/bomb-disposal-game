@@ -5,10 +5,15 @@ import nookies from "nookies";
 import { CustomError } from "@/lib/error";
 import { confirmRoom } from "@/lib/firebase/db/roomControl";
 import ShareButton from "@/components/WaitingRoom/ShareButton";
+import { ref, onValue } from "firebase/database";
+import { realtimeDB } from "@/lib/firebase/firebase";
+import { MembersInfoListType } from "@/types/users";
+import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
 
 const WaitingRoom = () => {
   const router = useRouter();
   const { roomId } = router.query;
+  const { membersInfoList } = useRealTimeMembers(roomId);
 
   useEffect(() => {
     if (!roomId) return;
