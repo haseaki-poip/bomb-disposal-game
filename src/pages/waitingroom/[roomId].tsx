@@ -1,5 +1,4 @@
 import EditUserName from "@/components/WaitingRoom/EditUserName";
-import { withCookiesServerSideProps } from "@/utils/withCookiesServerSideProps";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -72,11 +71,5 @@ const WaitingRoom = () => {
     </div>
   );
 };
-
-export const getServerSideProps = withCookiesServerSideProps(async () => {
-  return {
-    props: {},
-  };
-});
 
 export default WaitingRoom;
