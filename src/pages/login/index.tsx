@@ -20,7 +20,7 @@ const Login = () => {
 
       saveCookiesInRoom(secretId, userId);
 
-      router.push(`/waiting/${roomId}`);
+      router.push(`/waitingroom/${roomId}`);
     } catch (e) {
       if (e instanceof CustomError) {
         alert(e.message);
@@ -38,7 +38,7 @@ const Login = () => {
 
       saveCookiesInRoom(secretId, userId);
 
-      router.push(`/waiting/${roomId}`);
+      router.push(`/waitingroom/${roomId}`);
     } catch (e) {
       if (e instanceof CustomError) {
         alert(e.message);
