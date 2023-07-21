@@ -6,6 +6,7 @@ import { CustomError } from "@/lib/error";
 import { confirmRoom } from "@/lib/firebase/db/roomControl";
 import ShareButton from "@/components/WaitingRoom/ShareButton";
 import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
+import MemberList from "@/components/WaitingRoom/MemberList";
 
 const WaitingRoom = () => {
   const router = useRouter();
@@ -58,6 +59,7 @@ const WaitingRoom = () => {
         </div>
       </div>
       <EditUserName userName={membersInfoList[userId].user_name} />
+      <MemberList membersInfoList={membersInfoList} />
     </div>
   );
 };
