@@ -10,8 +10,9 @@ export const saveCookie = (cookieName: string, cookieValue: string) => {
   });
 };
 
-export const removeCookie = () => {
-  destroyCookie(null, "access_token");
+export const removeCookiesInRoom = () => {
+  destroyCookie(null, "secretId");
+  destroyCookie(null, "userId");
 };
 
 export const receiveCookies = (

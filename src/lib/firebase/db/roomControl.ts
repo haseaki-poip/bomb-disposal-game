@@ -44,6 +44,7 @@ export const createRoom = async () => {
   await set(newPostRefRooms, {
     rooms: { secret_id: secretId, status: "waiting" } satisfies RoomsInfoType,
     members: {
+      existed_last_id: 0,
       members_list: [
         {
           user_name: "user0",
@@ -92,13 +93,15 @@ export const loginRoom = async (roomId: string) => {
 
   // 追加するUser情報を作成
   const userId = membersInfoList.length;
-  const userName = `user${userId}`;
+  const existedLastId = membersInfo.existed_last_id + 1;
+  const userName = `user${existedLastId}`;
   const userInfo: UserInfoType = {
     user_name: userName,
     user_type: "normal",
   };
 
   await update(child(dbRef, `${roomId}/members`), {
+    existed_last_id: existedLastId,
     members_list: [...membersInfoList, userInfo],
   });
 
