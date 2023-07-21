@@ -1,22 +1,17 @@
 import EditUserName from "@/components/WaitingRoom/EditUserName";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import nookies from "nookies";
 import { CustomError } from "@/lib/error";
 import { confirmRoom } from "@/lib/firebase/db/roomControl";
 import ShareButton from "@/components/WaitingRoom/ShareButton";
-import { ref, onValue } from "firebase/database";
-import { realtimeDB } from "@/lib/firebase/firebase";
-import { MembersInfoListType } from "@/types/users";
+import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
 
 const WaitingRoom = () => {
   const router = useRouter();
   const { roomId } = router.query;
-  const [membersInfoList, setMembersInfoList] = useState<MembersInfoListType>(
-    []
-  );
-
   const [userId, setUserId] = useState<number | null>(null);
+  const { membersInfoList } = useRealTimeMembers(roomId);
 
   useEffect(() => {
     if (!roomId) return;
@@ -49,21 +44,6 @@ const WaitingRoom = () => {
         return;
       }
     })();
-
-    // リアルタイムデータ取得処理
-    try {
-      const membersRef = ref(realtimeDB, `${roomId}/members`);
-      // データ更新時にリアルタイムで発火
-      onValue(membersRef, (snapshot) => {
-        const membersList: MembersInfoListType = snapshot.val().members_list;
-
-        setMembersInfoList(membersList);
-      });
-    } catch (e) {
-      alert(
-        "データを正常に取得することができませんでした。リロードを行なってください。"
-      );
-    }
   }, [roomId]);
 
   if (userId == null || membersInfoList.length == 0) {

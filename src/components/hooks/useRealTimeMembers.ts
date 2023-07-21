@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, off } from "firebase/database";
 import { realtimeDB } from "@/lib/firebase/firebase";
 import { MembersInfoListType } from "@/types/users";
 
-const useRealTimeMembers = (roomId: string | undefined) => {
+const useRealTimeMembers = (roomId: string | string[] | undefined) => {
   const [membersInfoList, setMembersInfoList] = useState<MembersInfoListType>(
     []
   );
   useEffect(() => {
     if (!roomId) return;
 
+    const membersRef = ref(realtimeDB, `${roomId}/members`);
     try {
-      const membersRef = ref(realtimeDB, `${roomId}/members`);
       // データ更新時にリアルタイムで発火
       onValue(membersRef, (snapshot) => {
         const membersList: MembersInfoListType = snapshot.val().members_list;
@@ -23,10 +23,10 @@ const useRealTimeMembers = (roomId: string | undefined) => {
         "データを正常に取得することができませんでした。リロードを行なってください。"
       );
     }
-  }, []);
+  }, [roomId]);
 
   return {
-    membersInfoList: membersInfoList,
+    membersInfoList,
   };
 };
 
