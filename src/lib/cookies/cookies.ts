@@ -11,8 +11,8 @@ export const saveCookie = (cookieName: string, cookieValue: string) => {
 };
 
 export const removeCookiesInRoom = () => {
-  destroyCookie(null, "secretId");
-  destroyCookie(null, "userId");
+  destroyCookie(null, "secretId", { path: "/" });
+  destroyCookie(null, "userId", { path: "/" });
 };
 
 export const receiveCookies = (

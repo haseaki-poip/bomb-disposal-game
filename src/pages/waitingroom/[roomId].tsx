@@ -1,35 +1,19 @@
 import EditUserName from "@/components/WaitingRoom/EditUserName";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import nookies from "nookies";
 import { CustomError } from "@/lib/error";
 import { confirmRoom } from "@/lib/firebase/db/roomControl";
 import ShareButton from "@/components/WaitingRoom/ShareButton";
 import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
 import MemberList from "@/components/WaitingRoom/MemberList";
-import SquareButton from "@/components/UI/SquareButton";
-import { deleteUserInfoInRoom } from "@/lib/leavingRoom";
+import TransitionButtons from "@/components/WaitingRoom/TransitionButtons";
 
 const WaitingRoom = () => {
   const router = useRouter();
   const { roomId } = router.query;
   const [userId, setUserId] = useState<number | null>(null);
   const { membersInfoList } = useRealTimeMembers(roomId);
-
-  // 退出処理
-  const leavingRoom = useCallback(() => {
-    if (!roomId || userId == null) return;
-    try {
-      deleteUserInfoInRoom(roomId as string, userId);
-      router.push("/login");
-    } catch (e) {
-      if (e instanceof CustomError) {
-        alert(e.message);
-      } else {
-        alert("エラーが発生し退出できませんでした。");
-      }
-    }
-  }, [roomId, userId]);
 
   useEffect(() => {
     if (!roomId) return;
@@ -64,9 +48,18 @@ const WaitingRoom = () => {
     })();
   }, [roomId]);
 
-  if (userId == null || membersInfoList.length == 0) {
+  const isLogin = useMemo(() => {
+    if (userId != null && membersInfoList[userId]) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [userId, membersInfoList]);
+
+  if (!isLogin) {
     return <div></div>;
   }
+
   return (
     <div className="w-full h-full min-h-screen bg-login-main-color pt-16">
       <div className="w-fit mx-auto relative">
@@ -75,23 +68,10 @@ const WaitingRoom = () => {
           <ShareButton roomId={roomId as string} />
         </div>
       </div>
-      <EditUserName userName={membersInfoList[userId].user_name} />
+      <EditUserName userName={membersInfoList[userId!].user_name} />
       <MemberList membersInfoList={membersInfoList} />
-      <div className="w-full mt-8 flex justify-center">
-        <div className="mx-4">
-          <SquareButton
-            value="退出"
-            btnColor="red"
-            handleButton={() => leavingRoom()}
-          />
-        </div>
-        <div className="mx-4">
-          <SquareButton
-            value="スタート"
-            btnColor="blue"
-            handleButton={() => {}}
-          />
-        </div>
+      <div className="w-full mt-8">
+        <TransitionButtons userId={userId!} roomId={roomId as string} />
       </div>
     </div>
   );
