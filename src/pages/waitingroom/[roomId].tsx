@@ -68,7 +68,11 @@ const WaitingRoom = () => {
           <ShareButton roomId={roomId as string} />
         </div>
       </div>
-      <EditUserName userName={membersInfoList[userId!].user_name} />
+      <EditUserName
+        userName={membersInfoList[userId!].user_name}
+        userId={userId!}
+        roomId={roomId as string}
+      />
       <MemberList membersInfoList={membersInfoList} />
       <div className="w-full mt-8">
         <TransitionButtons userId={userId!} roomId={roomId as string} />

@@ -1,7 +1,15 @@
 import { useState } from "react";
 import Image from "next/image";
+import { changeUserName } from "@/lib/firebase/db/userControl";
+import { CustomError } from "@/lib/error";
 
-const EditUserName = ({ userName }: { userName: string }) => {
+type Props = {
+  userName: string;
+  roomId: string;
+  userId: number;
+};
+
+const EditUserName = ({ userName, userId, roomId }: Props) => {
   const [editedUserName, setEditedUserName] = useState(userName);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -10,8 +18,17 @@ const EditUserName = ({ userName }: { userName: string }) => {
     setEditedUserName(editingUserName);
   };
 
-  const saveUserName = () => {
-    setIsEdit(false);
+  const saveUserName = async () => {
+    try {
+      await changeUserName(roomId, userId, editedUserName);
+      setIsEdit(false);
+    } catch (e) {
+      if (e instanceof CustomError) {
+        alert(e.message);
+      } else {
+        alert("エラーが発生し名前を変更できませんでした。");
+      }
+    }
   };
 
   return (
