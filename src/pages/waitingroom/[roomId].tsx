@@ -14,6 +14,7 @@ const WaitingRoom = () => {
   const { roomId } = router.query;
   const [userId, setUserId] = useState<number | null>(null);
   const { membersInfoList } = useRealTimeMembers(roomId);
+  const [beQualified, setBeQualified] = useState(false);
 
   useEffect(() => {
     if (!roomId) return;
@@ -36,6 +37,7 @@ const WaitingRoom = () => {
         if (roomStatus == "finish") {
           throw new CustomError("すでにルームは終了しています");
         }
+        setBeQualified(true);
       } catch (e) {
         if (e instanceof CustomError) {
           alert(e.message);
@@ -49,12 +51,12 @@ const WaitingRoom = () => {
   }, [roomId]);
 
   const isLogin = useMemo(() => {
-    if (userId != null && membersInfoList[userId]) {
+    if (beQualified && userId != null && membersInfoList[userId]) {
       return true;
     } else {
       return false;
     }
-  }, [userId, membersInfoList]);
+  }, [userId, membersInfoList, beQualified]);
 
   if (!isLogin) {
     return <div></div>;

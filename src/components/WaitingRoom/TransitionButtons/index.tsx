@@ -1,5 +1,6 @@
 import SquareButton from "@/components/UI/SquareButton";
 import { CustomError } from "@/lib/error";
+import { startGame } from "@/lib/firebase/db/gameControl";
 import { deleteUserInfoInRoom } from "@/lib/leavingRoom";
 import { useRouter } from "next/router";
 import { memo, useCallback } from "react";
@@ -14,8 +15,7 @@ const TransitionButtons = memo(({ userId, roomId }: Props) => {
   const router = useRouter();
 
   // 退出処理
-  const leavingRoom = useCallback(() => {
-    if (!roomId || userId == null) return;
+  const leavingRoomPropcess = () => {
     try {
       deleteUserInfoInRoom(roomId as string, userId);
       router.push("/login");
@@ -27,9 +27,21 @@ const TransitionButtons = memo(({ userId, roomId }: Props) => {
       }
     }
     return;
-  }, [roomId, userId]);
+  };
 
   //　ゲームスタート処理
+  const startGameProcess = async () => {
+    try {
+      await startGame(roomId);
+      router.push(`/game/${roomId}`);
+    } catch (e) {
+      if (e instanceof CustomError) {
+        alert(e.message);
+      } else {
+        alert("エラーが発生しスタートできません。");
+      }
+    }
+  };
 
   // useEffectによる監視でゲーム画面へ遷移
 
@@ -39,14 +51,14 @@ const TransitionButtons = memo(({ userId, roomId }: Props) => {
         <SquareButton
           value="退出"
           btnColor="red"
-          handleButton={() => leavingRoom()}
+          handleButton={() => leavingRoomPropcess()}
         />
       </div>
       <div className="mx-4">
         <SquareButton
           value="スタート"
           btnColor="blue"
-          handleButton={() => {}}
+          handleButton={() => startGameProcess()}
         />
       </div>
     </div>
