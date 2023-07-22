@@ -1,9 +1,10 @@
 import SquareButton from "@/components/UI/SquareButton";
+import useRealTimeRooms from "@/components/hooks/useRealtimeRooms";
 import { CustomError } from "@/lib/error";
 import { startGame } from "@/lib/firebase/db/gameControl";
 import { deleteUserInfoInRoom } from "@/lib/leavingRoom";
 import { useRouter } from "next/router";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 
 type Props = {
   userId: number;
@@ -13,6 +14,7 @@ type Props = {
 // eslint-disable-next-line react/display-name
 const TransitionButtons = memo(({ userId, roomId }: Props) => {
   const router = useRouter();
+  const { realtimeRoomsInfo } = useRealTimeRooms(roomId);
 
   // 退出処理
   const leavingRoomPropcess = () => {
@@ -44,6 +46,11 @@ const TransitionButtons = memo(({ userId, roomId }: Props) => {
   };
 
   // useEffectによる監視でゲーム画面へ遷移
+  useEffect(() => {
+    if (realtimeRoomsInfo?.status == "inGame") {
+      router.push(`/game/${roomId}`);
+    }
+  }, [realtimeRoomsInfo?.status]);
 
   return (
     <div className="flex justify-center">
