@@ -4,11 +4,18 @@ import { saveCookiesInRoom } from "@/lib/cookies/cookies";
 import { CustomError } from "@/lib/error";
 import { createRoom, loginRoom } from "@/lib/firebase/db/roomControl";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Login = () => {
   const router = useRouter();
-  const [roomId, setRoomId] = useState("");
+  const { roomId: queryRoomId } = router.query;
+  const [roomId, setRoomId] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof queryRoomId == "string") {
+      setRoomId(queryRoomId);
+    }
+  }, [queryRoomId]);
 
   const createRoomProcess = async () => {
     try {
@@ -31,8 +38,9 @@ const Login = () => {
   };
 
   const loginRoomProcess = useCallback(async () => {
+    if (!roomId) return;
     try {
-      const response = await loginRoom(roomId);
+      const response = await loginRoom(roomId as string);
       const secretId = response.secretId;
       const userId = response.userId;
 

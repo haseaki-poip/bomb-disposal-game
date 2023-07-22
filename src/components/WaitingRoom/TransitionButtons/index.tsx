@@ -29,6 +29,10 @@ const TransitionButtons = memo(({ userId, roomId }: Props) => {
     return;
   }, [roomId, userId]);
 
+  //　ゲームスタート処理
+
+  // useEffectによる監視でゲーム画面へ遷移
+
   return (
     <div className="flex justify-center">
       <div className="mx-4">
