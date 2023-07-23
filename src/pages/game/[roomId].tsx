@@ -1,3 +1,4 @@
+import Controller from "@/components/Game/Controller";
 import Profile from "@/components/Game/Profile";
 import SwitchComponents from "@/components/Game/SwitchComponents";
 import useConfirmEligibility from "@/components/hooks/useConfirmEligibility";
@@ -25,7 +26,7 @@ const Game = () => {
       {isProfilePage ? (
         <Profile userInfo={membersInfoList[userId!]} />
       ) : (
-        <div className="w-full h-full min-h-screen bg-game-main-color pt-16"></div>
+        <Controller />
       )}
 
       <div className="fixed bottom-0 left-0 z-50 w-full shadow">
