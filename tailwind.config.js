@@ -17,6 +17,7 @@ module.exports = {
         "game-red": "#8B0000",
         "game-blue": "#1E90FF",
         "game-gray": "#808080",
+        "game-main-color": "#F6F6F6",
         "login-main-color": "#D0ADAD",
       },
     },
