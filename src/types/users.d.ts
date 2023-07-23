@@ -1,9 +1,11 @@
+export type CardType = "しーん" | "Boom" | "解除";
+
 export type UserInfoType = {
   user_name: string;
   user_type: string;
-  role?: ("bomber" | "polis")[];
-  hidden_cards?: string[];
-  show_cards?: string[];
+  role?: "bomber" | "polis";
+  hidden_cards?: CardType[];
+  show_cards?: CardType[];
 };
 
 export type MembersInfoListType = UserInfoType[];

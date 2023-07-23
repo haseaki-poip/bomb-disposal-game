@@ -1,3 +1,4 @@
+import Profile from "@/components/Game/Profile";
 import SwitchComponents from "@/components/Game/SwitchComponents";
 import useConfirmEligibility from "@/components/hooks/useConfirmEligibility";
 import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
@@ -21,7 +22,12 @@ const Game = () => {
 
   return (
     <>
-      <div className="w-full h-full min-h-screen bg-game-main-color pt-16"></div>
+      {isProfilePage ? (
+        <Profile userInfo={membersInfoList[userId!]} />
+      ) : (
+        <div className="w-full h-full min-h-screen bg-game-main-color pt-16"></div>
+      )}
+
       <div className="fixed bottom-0 left-0 z-50 w-full shadow">
         <SwitchComponents
           isProfilePage={isProfilePage}

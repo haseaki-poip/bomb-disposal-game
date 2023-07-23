@@ -1,7 +1,7 @@
 import { ref, update, set, push, get, child } from "firebase/database";
 import { realtimeDB } from "../firebase";
 import { CustomError } from "../../error";
-import { MembersInfoListType, UserInfoType } from "@/types/users";
+import { CardType, MembersInfoListType, UserInfoType } from "@/types/users";
 import { RoomsInfoType } from "@/types/rooms";
 import { DBType } from "@/types/db";
 import { GamesInfoType } from "@/types/games";
@@ -49,7 +49,7 @@ export const startGame = async (roomId: string) => {
   // Userのゲームでの役割やカードの設定
   const silenceCardNum = membersNum >= 3 ? membersNum * 4 - 1 : 11;
   const releaseCardNum = membersNum >= 3 ? membersNum : 3;
-  const cardsList = [];
+  const cardsList: CardType[] = [];
   cardsList.push("Boom");
   for (let i = 1; i <= silenceCardNum; i++) {
     cardsList.push("しーん");
