@@ -3,8 +3,10 @@ import useRealTimeRooms from "@/components/hooks/useRealTimeRooms";
 import { CustomError } from "@/lib/error";
 import { startGame } from "@/lib/firebase/db/gameControl";
 import { deleteUserInfoInRoom } from "@/lib/leavingRoom";
+import { setUserId } from "@/redux/userIdSlice";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 type Props = {
   userId: number;
@@ -15,11 +17,13 @@ type Props = {
 const TransitionButtons = memo(({ userId, roomId }: Props) => {
   const router = useRouter();
   const { realtimeRoomsInfo } = useRealTimeRooms(roomId);
+  const dispatch = useDispatch();
 
   // 退出処理
   const leavingRoomPropcess = () => {
     try {
       deleteUserInfoInRoom(roomId as string, userId);
+      dispatch(setUserId(null));
       router.push("/login");
     } catch (e) {
       if (e instanceof CustomError) {

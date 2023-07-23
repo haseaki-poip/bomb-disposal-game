@@ -3,13 +3,16 @@ import SquareButton from "@/components/UI/SquareButton";
 import { saveCookiesInRoom } from "@/lib/cookies/cookies";
 import { CustomError } from "@/lib/error";
 import { createRoom, loginRoom } from "@/lib/firebase/db/roomControl";
+import { setUserId } from "@/redux/userIdSlice";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const router = useRouter();
   const { roomId: queryRoomId } = router.query;
   const [roomId, setRoomId] = useState<string>("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (typeof queryRoomId == "string") {
@@ -26,7 +29,7 @@ const Login = () => {
       const userId = response.userId;
 
       saveCookiesInRoom(secretId, userId);
-
+      dispatch(setUserId(userId));
       router.push(`/waitingroom/${roomId}`);
     } catch (e) {
       if (e instanceof CustomError) {
@@ -45,7 +48,7 @@ const Login = () => {
       const userId = response.userId;
 
       saveCookiesInRoom(secretId, userId);
-
+      dispatch(setUserId(userId));
       router.push(`/waitingroom/${roomId}`);
     } catch (e) {
       if (e instanceof CustomError) {

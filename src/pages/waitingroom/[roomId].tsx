@@ -14,11 +14,7 @@ const WaitingRoom = () => {
   const { userId } = useConfirmEligibility(roomId, "waiting");
 
   const isLogin = useMemo(() => {
-    if (userId != null && membersInfoList[userId]) {
-      return true;
-    } else {
-      return false;
-    }
+    return userId != null && membersInfoList[userId]?.user_type;
   }, [userId, membersInfoList]);
 
   if (!isLogin) {
