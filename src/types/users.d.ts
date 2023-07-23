@@ -1,4 +1,4 @@
-export type CardType = "しーん" | "Boom" | "解除";
+import type { CardType } from "./games";
 
 export type UserInfoType = {
   user_name: string;

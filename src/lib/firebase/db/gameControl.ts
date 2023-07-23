@@ -1,10 +1,10 @@
 import { ref, update, set, push, get, child } from "firebase/database";
 import { realtimeDB } from "../firebase";
 import { CustomError } from "../../error";
-import { CardType, MembersInfoListType, UserInfoType } from "@/types/users";
+import { MembersInfoListType, UserInfoType } from "@/types/users";
 import { RoomsInfoType } from "@/types/rooms";
 import { DBType } from "@/types/db";
-import { GamesInfoType } from "@/types/games";
+import { CardType, GamesInfoType } from "@/types/games";
 
 // カードのリストを人数分に分けた二次元配列にする
 const splitArrayIntoChunks = (array: string[], chunkSize: number) => {
@@ -41,7 +41,7 @@ export const startGame = async (roomId: string) => {
   // ゲーム情報を新規に作成
   const gamesInfo: GamesInfoType = {
     processor: Math.floor(Math.random() * membersNum),
-    result: "",
+    result: "しーん",
     release_num: membersNum >= 3 ? membersNum : 3,
     success_num: 0,
   };
