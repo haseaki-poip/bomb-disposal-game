@@ -1,5 +1,5 @@
 import SquareButton from "@/components/UI/SquareButton";
-import useRealTimeRooms from "@/components/hooks/useRealtimeRooms";
+import useRealTimeRooms from "@/components/hooks/useRealTimeRooms";
 import { CustomError } from "@/lib/error";
 import { startGame } from "@/lib/firebase/db/gameControl";
 import { deleteUserInfoInRoom } from "@/lib/leavingRoom";

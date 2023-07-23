@@ -1,62 +1,25 @@
 import EditUserName from "@/components/WaitingRoom/EditUserName";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
-import nookies from "nookies";
-import { CustomError } from "@/lib/error";
-import { confirmRoom } from "@/lib/firebase/db/roomControl";
 import ShareButton from "@/components/WaitingRoom/ShareButton";
 import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
 import MemberList from "@/components/WaitingRoom/MemberList";
 import TransitionButtons from "@/components/WaitingRoom/TransitionButtons";
+import useConfirmEligibility from "@/components/hooks/useConfirmEligibility";
 
 const WaitingRoom = () => {
   const router = useRouter();
   const { roomId } = router.query;
-  const [userId, setUserId] = useState<number | null>(null);
   const { membersInfoList } = useRealTimeMembers(roomId);
-  const [beQualified, setBeQualified] = useState(false);
-
-  useEffect(() => {
-    if (!roomId) return;
-
-    const cookies = nookies.get();
-    const secretId = cookies.secretId;
-    const userId = cookies.userId;
-
-    if (!secretId || !userId) {
-      router.push("/login");
-      return;
-    }
-
-    setUserId(Number(userId));
-
-    // cookiesをもとにroomに参加できる資格があるのか確認
-    (async () => {
-      try {
-        const roomStatus = await confirmRoom(roomId as string, secretId);
-        if (roomStatus == "finish") {
-          throw new CustomError("すでにルームは終了しています");
-        }
-        setBeQualified(true);
-      } catch (e) {
-        if (e instanceof CustomError) {
-          alert(e.message);
-        } else {
-          alert("エラーが発生しました。ログイン画面に戻ります。");
-        }
-        router.push("/login");
-        return;
-      }
-    })();
-  }, [roomId]);
+  const { userId } = useConfirmEligibility(roomId, "waiting");
 
   const isLogin = useMemo(() => {
-    if (beQualified && userId != null && membersInfoList[userId]) {
+    if (userId != null && membersInfoList[userId]) {
       return true;
     } else {
       return false;
     }
-  }, [userId, membersInfoList, beQualified]);
+  }, [userId, membersInfoList]);
 
   if (!isLogin) {
     return <div></div>;
