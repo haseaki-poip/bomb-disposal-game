@@ -110,6 +110,7 @@ export const startGame = async (roomId: string) => {
         ...membersInfo,
         role: roleList[userId],
         hidden_cards: splitedCardsList[userId],
+        show_cards: [],
       };
     }
   );
