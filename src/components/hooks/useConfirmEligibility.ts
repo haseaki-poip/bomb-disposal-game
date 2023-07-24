@@ -49,7 +49,7 @@ const useConfirmEligibility = (
               beEligible.current == true;
               break;
             }
-            router.push(`/waitingroom/${roomId}`);
+            router.push(`/game/${roomId}`);
             break;
           case "waiting":
             if (nowRoomStatus == roomStatus) {
@@ -57,7 +57,7 @@ const useConfirmEligibility = (
               beEligible.current == true;
               break;
             }
-            router.push(`/game/${roomId}`);
+            router.push(`/waitingroom/${roomId}`);
             break;
           default:
             throw new Error(roomStatus satisfies never);
