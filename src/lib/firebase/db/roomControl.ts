@@ -83,14 +83,6 @@ export const loginRoom = async (
   }
 
   const secretId = roomsInfo.secret_id;
-
-  const snapshotMembers = await get(child(dbRef, `${roomId}/members`));
-  const membersInfo = await snapshotMembers.val();
-
-  if (!membersInfo) {
-    throw new CustomError("ルームが存在しません。");
-  }
-
   // cookieにそのルームの情報が保存されていれば、新規には登録せずにログイン
   const roomCookies = confirmCookiesInRoom();
   if (roomCookies.secretId == secretId && roomCookies.userId != null) {
@@ -99,6 +91,19 @@ export const loginRoom = async (
       secretId: secretId,
       userId: Number(roomCookies.userId),
     };
+  }
+
+  if (roomsInfo.status != "waiting") {
+    throw new CustomError(
+      "こちらのルームはゲーム中またはゲームが終了しているため参加できません。"
+    );
+  }
+
+  const snapshotMembers = await get(child(dbRef, `${roomId}/members`));
+  const membersInfo = await snapshotMembers.val();
+
+  if (!membersInfo) {
+    throw new CustomError("ルームが存在しません。");
   }
 
   const membersInfoList: MembersInfoListType = membersInfo.members_list;
