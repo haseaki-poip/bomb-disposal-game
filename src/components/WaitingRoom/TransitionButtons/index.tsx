@@ -4,6 +4,7 @@ import { CustomError } from "@/lib/error";
 import { startGame } from "@/lib/firebase/db/gameControl";
 import { deleteUserInfoInRoom } from "@/lib/leavingRoom";
 import { setUserId } from "@/redux/userIdSlice";
+import { UserInfoType } from "@/types/users";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -11,10 +12,11 @@ import { useDispatch } from "react-redux";
 type Props = {
   userId: number;
   roomId: string;
+  userInfo: UserInfoType;
 };
 
 // eslint-disable-next-line react/display-name
-const TransitionButtons = memo(({ userId, roomId }: Props) => {
+const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
   const router = useRouter();
   const { realtimeRoomsInfo } = useRealTimeRooms(roomId);
   const dispatch = useDispatch();
@@ -65,13 +67,15 @@ const TransitionButtons = memo(({ userId, roomId }: Props) => {
           handleButton={() => leavingRoomPropcess()}
         />
       </div>
-      <div className="mx-4">
-        <SquareButton
-          value="スタート"
-          btnColor="blue"
-          handleButton={() => startGameProcess()}
-        />
-      </div>
+      {userInfo.user_type == "admin" ? (
+        <div className="mx-4">
+          <SquareButton
+            value="スタート"
+            btnColor="blue"
+            handleButton={() => startGameProcess()}
+          />
+        </div>
+      ) : null}
     </div>
   );
 });

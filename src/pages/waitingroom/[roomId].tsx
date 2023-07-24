@@ -36,7 +36,11 @@ const WaitingRoom = () => {
       />
       <MemberList membersInfoList={membersInfoList} />
       <div className="w-full mt-8">
-        <TransitionButtons userId={userId!} roomId={roomId as string} />
+        <TransitionButtons
+          userId={userId!}
+          roomId={roomId as string}
+          userInfo={membersInfoList[userId!]}
+        />
       </div>
     </div>
   );
