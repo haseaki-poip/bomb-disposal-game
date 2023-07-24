@@ -2,7 +2,8 @@ import { cardDatas } from "@/feature/cardDatas";
 import { GamesInfoType } from "@/types/games";
 import { MembersInfoListType } from "@/types/users";
 import Image from "next/image";
-import { memo } from "react";
+import { memo, useState } from "react";
+import OpenCardModal from "./OpenCardModal";
 
 type Props = {
   membersInfoList: MembersInfoListType;
@@ -12,8 +13,12 @@ type Props = {
 
 // eslint-disable-next-line react/display-name
 const Controller = memo(({ membersInfoList, gamesInfo, userId }: Props) => {
+  const [isOpenCardModal, setIsOpenCardModal] = useState(false);
   return (
     <>
+      {isOpenCardModal ? (
+        <OpenCardModal membersInfoList={membersInfoList} userId={userId} />
+      ) : null}
       <div className="w-full h-full min-h-screen bg-game-main-color pt-32 pb-28 flex flex-col justify-center items-center relative">
         <div
           className={`${
@@ -95,7 +100,10 @@ const Controller = memo(({ membersInfoList, gamesInfo, userId }: Props) => {
         </div>
 
         {gamesInfo.processor == userId ? (
-          <div className="fixed bottom-28 right-4 w-20 h-20 rounded-full bg-game-orange drop-shadow-2xl flex justify-center items-center">
+          <div
+            className="fixed bottom-28 right-4 w-20 h-20 rounded-full bg-game-orange drop-shadow-2xl flex justify-center items-center"
+            onClick={() => setIsOpenCardModal(true)}
+          >
             <Image
               src="/svg/scissors.svg"
               alt="はさみ"

@@ -39,7 +39,7 @@ const Game = () => {
         />
       )}
 
-      <div className="fixed bottom-0 left-0 z-50 w-full shadow">
+      <div className="fixed bottom-0 left-0 z-30 w-full shadow">
         <SwitchComponents
           isProfilePage={isProfilePage}
           setIsProfilePage={setIsProfilePage}
