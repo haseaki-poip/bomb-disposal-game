@@ -26,3 +26,14 @@ export const saveCookiesInRoom = (secretId: string, userId: number) => {
   saveCookie("secretId", secretId);
   saveCookie("userId", String(userId));
 };
+
+export const confirmCookiesInRoom = () => {
+  const cookies = parseCookies();
+  const userId = cookies.userId ?? null;
+  const secretId = cookies.secretId ?? null;
+
+  return {
+    userId: userId as string | null,
+    secretId: secretId as string | null,
+  };
+};

@@ -3,6 +3,7 @@ import { realtimeDB } from "../firebase";
 import { CustomError } from "../../error";
 import { MembersInfoListType, UserInfoType } from "@/types/users";
 import { RoomsInfoType } from "@/types/rooms";
+import { confirmCookiesInRoom } from "@/lib/cookies/cookies";
 
 // シークレットIDの生成
 const generateSecretId = (): string => {
@@ -67,7 +68,13 @@ export const createRoom = async () => {
 };
 
 // ルーム参加
-export const loginRoom = async (roomId: string) => {
+export const loginRoom = async (
+  roomId: string
+): Promise<{
+  roomId: string;
+  secretId: string;
+  userId: number;
+}> => {
   const dbRef = ref(realtimeDB);
   const snapshotRooms = await get(child(dbRef, `${roomId}/rooms`));
   const roomsInfo: RoomsInfoType = await snapshotRooms.val();
@@ -82,6 +89,16 @@ export const loginRoom = async (roomId: string) => {
 
   if (!membersInfo) {
     throw new CustomError("ルームが存在しません。");
+  }
+
+  // cookieにそのルームの情報が保存されていれば、新規には登録せずにログイン
+  const roomCookies = confirmCookiesInRoom();
+  if (roomCookies.secretId == secretId && roomCookies.userId != null) {
+    return {
+      roomId: roomId,
+      secretId: secretId,
+      userId: Number(roomCookies.userId),
+    };
   }
 
   const membersInfoList: MembersInfoListType = membersInfo.members_list;
