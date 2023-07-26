@@ -1,4 +1,5 @@
 import { cardDatas } from "@/feature/cardDatas";
+import { roleDatas } from "@/feature/roleDatas";
 import { UserInfoType } from "@/types/users";
 import Image from "next/image";
 import { memo } from "react";
@@ -6,25 +7,7 @@ import { memo } from "react";
 // eslint-disable-next-line react/display-name
 const Profile = memo(({ userInfo }: { userInfo: UserInfoType }) => {
   const role = userInfo.role!;
-  const roleInfo = (() => {
-    if (role == "polis") {
-      return {
-        roleName: "ボムポリス",
-        roleExplanation: "爆発する前に解除チップを揃えれば勝利です。",
-        roleBgColorClass: "bg-game-blue",
-        roleTextColorClass: "text-game-blue",
-        roleImgSrc: "/svg/polis.svg",
-      };
-    } else {
-      return {
-        roleName: "ボマー",
-        roleExplanation: "解除チップが揃う前に爆発させれば勝利です。",
-        roleBgColorClass: "bg-game-red",
-        roleTextColorClass: "text-game-red",
-        roleImgSrc: "/svg/bomber.svg",
-      };
-    }
-  })();
+  const roleInfo = roleDatas[role];
 
   return (
     <div

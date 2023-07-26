@@ -30,7 +30,13 @@ const Game = () => {
 
   return (
     <>
-      {realtimeGamesInfo?.winner ? <ResultModal /> : null}
+      {realtimeGamesInfo?.winner ? (
+        <ResultModal
+          membersInfoList={membersInfoList}
+          userId={userId!}
+          gameInfo={realtimeGamesInfo}
+        />
+      ) : null}
       {isProfilePage ? (
         <Profile userInfo={membersInfoList[userId!]} />
       ) : (
