@@ -14,9 +14,9 @@ const useRealTimeMembers = (roomId: string | string[] | undefined) => {
     try {
       // データ更新時にリアルタイムで発火
       onValue(membersRef, (snapshot) => {
-        const membersList: MembersInfoListType = snapshot.val().members_list;
+        const membersList: MembersInfoListType = snapshot.val()?.members_list;
 
-        setMembersInfoList(membersList);
+        setMembersInfoList(membersList ?? []);
       });
     } catch (e) {
       alert(
