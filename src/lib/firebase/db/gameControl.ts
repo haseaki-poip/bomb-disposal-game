@@ -49,7 +49,7 @@ export const startGame = async (roomId: string) => {
   };
 
   // Userのゲームでの役割やカードの設定
-  const silenceCardNum = membersNum >= 3 ? membersNum * 4 - 1 : 11;
+  const silenceCardNum = membersNum >= 3 ? membersNum * 4 - 1 : 6;
   const releaseCardNum = membersNum >= 3 ? membersNum : 3;
   const cardsList: CardType[] = [];
   cardsList.push("Boom");
