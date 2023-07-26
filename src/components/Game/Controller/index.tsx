@@ -17,7 +17,11 @@ const Controller = memo(({ membersInfoList, gamesInfo, userId }: Props) => {
   return (
     <>
       {isOpenCardModal ? (
-        <OpenCardModal membersInfoList={membersInfoList} userId={userId} />
+        <OpenCardModal
+          membersInfoList={membersInfoList}
+          userId={userId}
+          closeModal={() => setIsOpenCardModal(false)}
+        />
       ) : null}
       <div className="w-full h-full min-h-screen bg-game-main-color pt-32 pb-28 flex flex-col justify-center items-center relative">
         <div

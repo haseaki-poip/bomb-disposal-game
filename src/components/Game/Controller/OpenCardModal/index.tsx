@@ -7,14 +7,15 @@ import { memo, useState } from "react";
 type Props = {
   membersInfoList: MembersInfoListType;
   userId: number;
+  closeModal: () => void;
 };
 
 // eslint-disable-next-line react/display-name
-const OpenCardModal = memo(({ membersInfoList, userId }: Props) => {
+const OpenCardModal = memo(({ membersInfoList, userId, closeModal }: Props) => {
   const [selectedUserId, setSelectedUserId] = useState(userId == 0 ? 1 : 0);
 
   return (
-    <Modal>
+    <Modal closeModal={closeModal}>
       <div className="w-11/12 py-6 bg-game-main-color rounded-lg">
         <div className="w-full px-8">
           <label className="w-full">
