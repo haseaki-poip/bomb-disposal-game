@@ -102,7 +102,7 @@ const OpenCardModal = memo(({ membersInfoList, userId, closeModal }: Props) => {
         </div>
       </div>
       <div
-        className="fixed bottom-28 right-4 w-20 h-20 rounded-full bg-game-gray drop-shadow-2xl flex justify-center items-center"
+        className="absolute bottom-28 right-4 w-20 h-20 rounded-full bg-game-gray drop-shadow-2xl flex justify-center items-center"
         onClick={() => closeModal()}
       >
         <div className="w-12 h-12 relative">

@@ -62,10 +62,7 @@ export const startGame = async (roomId: string) => {
   // cardリストをランダムに入れ替える
   cardsList.sort(() => Math.random() - 0.5);
 
-  const splitedCardsList = splitArrayIntoChunks(
-    cardsList,
-    membersNum >= 3 ? 5 : 8
-  ) as CardType[][];
+  const splitedCardsList = splitArrayIntoChunks(cardsList, 5) as CardType[][];
 
   // ボマーとなるuserIdを決定
   const roleList: RoleType[] = (() => {

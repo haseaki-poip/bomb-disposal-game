@@ -107,7 +107,7 @@ const Controller = memo(({ membersInfoList, gamesInfo, userId }: Props) => {
 
         {gamesInfo.processor == userId ? (
           <div
-            className="fixed bottom-28 right-4 w-20 h-20 rounded-full bg-game-orange drop-shadow-2xl flex justify-center items-center"
+            className="absolute bottom-28 right-4 w-20 h-20 rounded-full bg-game-orange drop-shadow-2xl flex justify-center items-center"
             onClick={() => setIsOpenCardModal(true)}
           >
             <Image

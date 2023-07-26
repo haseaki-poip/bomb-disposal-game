@@ -5,8 +5,12 @@ import { Provider } from "react-redux";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <div className="bg-white w-full">
+      <div className="w-full h-screen max-w-md mx-auto overflow-x-hidden relative">
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      </div>
+    </div>
   );
 }
