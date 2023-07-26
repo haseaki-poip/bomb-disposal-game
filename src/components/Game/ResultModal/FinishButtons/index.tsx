@@ -2,7 +2,6 @@ import SquareButton from "@/components/UI/SquareButton";
 import { RootState } from "@/redux/store";
 import { UserInfoType } from "@/types/users";
 import { memo, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { setUserId } from "@/redux/userIdSlice";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -20,7 +19,6 @@ type Props = {
 const FinishButtons = memo(({ userInfo, roomId }: Props) => {
   const { realtimeRoomsInfo } = useRealTimeRooms(roomId);
   const router = useRouter();
-  const userId = useSelector((state: RootState) => state.user.userId) as number;
   const dispatch = useDispatch();
 
   // コンティニュー処理

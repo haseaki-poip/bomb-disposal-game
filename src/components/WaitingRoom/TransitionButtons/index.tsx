@@ -1,7 +1,8 @@
 import SquareButton from "@/components/UI/SquareButton";
 import useRealTimeRooms from "@/components/hooks/useRealTimeRooms";
+import { removeCookiesInRoom } from "@/lib/cookies/cookies";
 import { CustomError } from "@/lib/error";
-import { startGame } from "@/lib/firebase/db/gameControl";
+import { finishGame, startGame } from "@/lib/firebase/db/gameControl";
 import { deleteUserInfoInRoom } from "@/lib/leavingRoom";
 import { setUserId } from "@/redux/userIdSlice";
 import { UserInfoType } from "@/types/users";
@@ -37,6 +38,20 @@ const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
     return;
   };
 
+  // ルーム終了処理
+  const finishGameProcess = async () => {
+    try {
+      finishGame(roomId);
+    } catch (e) {
+      if (e instanceof CustomError) {
+        alert(e.message);
+      } else {
+        alert("エラーが発生しルームを終了できませんでした。");
+      }
+    }
+    return;
+  };
+
   //　ゲームスタート処理
   const startGameProcess = async () => {
     try {
@@ -51,31 +66,46 @@ const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
     }
   };
 
-  // useEffectによる監視でゲーム画面へ遷移
+  // useEffectによる監視でページ遷移
   useEffect(() => {
-    if (realtimeRoomsInfo?.status == "inGame") {
-      router.push(`/game/${roomId}`);
+    if (realtimeRoomsInfo?.status == "waiting") {
+      router.push(`/waitingroom/${roomId}`);
+    }
+    if (realtimeRoomsInfo?.status == "finish") {
+      router.push(`/login`);
+      removeCookiesInRoom();
+      dispatch(setUserId(null));
     }
   }, [realtimeRoomsInfo?.status]);
 
   return (
     <div className="flex justify-center">
-      <div className="mx-4">
-        <SquareButton
-          value="退出"
-          btnColor="red"
-          handleButton={() => leavingRoomPropcess()}
-        />
-      </div>
       {userInfo.user_type == "admin" ? (
+        <>
+          <div className="mx-4">
+            <SquareButton
+              value="退出"
+              btnColor="red"
+              handleButton={() => finishGameProcess()}
+            />
+          </div>
+          <div className="mx-4">
+            <SquareButton
+              value="スタート"
+              btnColor="blue"
+              handleButton={() => startGameProcess()}
+            />
+          </div>
+        </>
+      ) : (
         <div className="mx-4">
           <SquareButton
-            value="スタート"
-            btnColor="blue"
-            handleButton={() => startGameProcess()}
+            value="退出"
+            btnColor="red"
+            handleButton={() => leavingRoomPropcess()}
           />
         </div>
-      ) : null}
+      )}
     </div>
   );
 });
