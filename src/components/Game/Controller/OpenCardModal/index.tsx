@@ -37,7 +37,7 @@ const OpenCardModal = memo(({ membersInfoList, userId, closeModal }: Props) => {
   );
 
   return (
-    <Modal closeModal={closeModal}>
+    <Modal>
       <div className="w-11/12 py-6 bg-game-main-color rounded-lg">
         <div className="w-full px-8">
           <label className="w-full">
@@ -99,6 +99,15 @@ const OpenCardModal = memo(({ membersInfoList, userId, closeModal }: Props) => {
               }
             )}
           </div>
+        </div>
+      </div>
+      <div
+        className="fixed bottom-28 right-4 w-20 h-20 rounded-full bg-game-gray drop-shadow-2xl flex justify-center items-center"
+        onClick={() => closeModal()}
+      >
+        <div className="w-12 h-12 relative">
+          <i className="w-full h-1 bg-white absolute top-1/2 left-0 -translate-y-1/2 rotate-45"></i>
+          <i className="w-full h-1 bg-white absolute top-1/2 left-0 -translate-y-1/2 -rotate-45"></i>
         </div>
       </div>
     </Modal>

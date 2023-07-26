@@ -1,11 +1,12 @@
 import Controller from "@/components/Game/Controller";
 import Profile from "@/components/Game/Profile";
+import ResultModal from "@/components/Game/ResultModal";
 import SwitchComponents from "@/components/Game/SwitchComponents";
 import useConfirmEligibility from "@/components/hooks/useConfirmEligibility";
 import useRealTimeGames from "@/components/hooks/useRealTimeGames";
 import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 const Game = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const Game = () => {
 
   return (
     <>
+      {realtimeGamesInfo?.winner ? <ResultModal /> : null}
       {isProfilePage ? (
         <Profile userInfo={membersInfoList[userId!]} />
       ) : (
