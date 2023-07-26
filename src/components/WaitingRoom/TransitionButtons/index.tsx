@@ -68,8 +68,8 @@ const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
 
   // useEffectによる監視でページ遷移
   useEffect(() => {
-    if (realtimeRoomsInfo?.status == "waiting") {
-      router.push(`/waitingroom/${roomId}`);
+    if (realtimeRoomsInfo?.status == "inGame") {
+      router.push(`/game/${roomId}`);
     }
     if (realtimeRoomsInfo?.status == "finish") {
       router.push(`/login`);

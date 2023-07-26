@@ -76,7 +76,7 @@ const OpenCardModal = memo(({ membersInfoList, userId, closeModal }: Props) => {
                 onClick={() => selectCardProcess(selectedUserId, key)}
                 className="mx-2 w-32 h-32 bg-white drop-shadow-md rounded-lg flex-shrink-0 flex justify-center items-center"
               >
-                <Image src="/svg/touch.svg" alt="card" width={72} height={72} />
+                <Image src="/svg/Touch.svg" alt="card" width={72} height={72} />
               </div>
             ))}
 
