@@ -35,6 +35,7 @@ const Game = () => {
           membersInfoList={membersInfoList}
           userId={userId!}
           gameInfo={realtimeGamesInfo}
+          roomId={roomId as string}
         />
       ) : null}
       {isProfilePage ? (

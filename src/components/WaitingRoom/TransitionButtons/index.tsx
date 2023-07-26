@@ -41,7 +41,6 @@ const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
   const startGameProcess = async () => {
     try {
       await startGame(roomId);
-      router.push(`/game/${roomId}`);
     } catch (e) {
       if (e instanceof CustomError) {
         alert(e.message);

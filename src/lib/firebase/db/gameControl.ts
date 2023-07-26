@@ -5,6 +5,7 @@ import { MembersInfoListType, MembersType, UserInfoType } from "@/types/users";
 import { RoomsInfoType } from "@/types/rooms";
 import { DBType } from "@/types/db";
 import { CardType, GamesInfoType, RoleType } from "@/types/games";
+import { removeCookiesInRoom } from "@/lib/cookies/cookies";
 
 // カードのリストを人数分に分けた二次元配列にする
 const splitArrayIntoChunks = (array: string[], chunkSize: number) => {
@@ -190,4 +191,34 @@ export const selectCard = async (
       members_list: changedMembersInfoList,
     } satisfies MembersType,
   });
+};
+
+export const continueGame = async (roomId: string) => {
+  const dbRef = ref(realtimeDB);
+  const snapshot = await get(child(dbRef, `${roomId}/rooms`));
+  const roomsInfo: RoomsInfoType = await snapshot.val();
+
+  if (!roomsInfo) {
+    throw new CustomError("ルームが存在しません。");
+  }
+
+  await update(child(dbRef, `${roomId}/rooms`), {
+    ...roomsInfo,
+    status: "waiting",
+  } satisfies RoomsInfoType);
+};
+
+export const finishGame = async (roomId: string) => {
+  const dbRef = ref(realtimeDB);
+  const snapshot = await get(child(dbRef, `${roomId}/rooms`));
+  const roomsInfo: RoomsInfoType = await snapshot.val();
+
+  if (!roomsInfo) {
+    throw new CustomError("ルームが存在しません。");
+  }
+
+  await update(child(dbRef, `${roomId}/rooms`), {
+    ...roomsInfo,
+    status: "finish",
+  } satisfies RoomsInfoType);
 };
