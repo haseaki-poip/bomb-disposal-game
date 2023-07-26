@@ -106,11 +106,15 @@ export const startGame = async (roomId: string) => {
 
   const membersInfoListAddedInfo = membersInfoList.map(
     (membersInfo, userId) => {
+      // myCardsは自分のプロフィールで表示する時順番がわからないようにランダムに並び替えて表示
+      const myCards = splitedCardsList[userId].concat();
+      myCards.sort(() => Math.random() - 0.5);
+
       return {
         ...membersInfo,
         role: roleList[userId],
         hidden_cards: splitedCardsList[userId],
-        my_cards: splitedCardsList[userId],
+        my_cards: myCards,
         show_cards: [],
       } satisfies UserInfoType;
     }

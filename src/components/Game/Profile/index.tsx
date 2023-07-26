@@ -26,10 +26,6 @@ const Profile = memo(({ userInfo }: { userInfo: UserInfoType }) => {
     }
   })();
 
-  // 本人もカードの順番がわからないようにランダムに並び替えて表示
-  const myCardsSortRandom = userInfo.my_cards!.concat();
-  myCardsSortRandom.sort(() => Math.random() - 0.5);
-
   return (
     <div
       className={`${roleInfo.roleBgColorClass} w-full h-full min-h-screen pb-28 flex justify-center items-center`}
@@ -57,7 +53,7 @@ const Profile = memo(({ userInfo }: { userInfo: UserInfoType }) => {
           <div className="mt-5 w-full">
             <p className="ml-4 text-sm text-game-gray">手持ちカード</p>
             <div className="mt-2 pb-5 w-full overflow-x-auto flex justify-start">
-              {myCardsSortRandom.map((cardName, key) => (
+              {userInfo.my_cards!.map((cardName, key) => (
                 <div
                   key={key}
                   className="mx-2 w-32 h-32 bg-white drop-shadow-md rounded-lg flex-shrink-0 flex justify-center items-center"
