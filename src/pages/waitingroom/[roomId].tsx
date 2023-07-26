@@ -6,6 +6,7 @@ import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
 import MemberList from "@/components/WaitingRoom/MemberList";
 import TransitionButtons from "@/components/WaitingRoom/TransitionButtons";
 import useConfirmEligibility from "@/components/hooks/useConfirmEligibility";
+import Loading from "@/components/UI/Loading";
 
 const WaitingRoom = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const WaitingRoom = () => {
   }, [userId, membersInfoList]);
 
   if (!isLogin) {
-    return <div></div>;
+    return <Loading />;
   }
 
   return (

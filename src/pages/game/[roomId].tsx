@@ -2,6 +2,7 @@ import Controller from "@/components/Game/Controller";
 import Profile from "@/components/Game/Profile";
 import ResultModal from "@/components/Game/ResultModal";
 import SwitchComponents from "@/components/Game/SwitchComponents";
+import Loading from "@/components/UI/Loading";
 import useConfirmEligibility from "@/components/hooks/useConfirmEligibility";
 import useRealTimeGames from "@/components/hooks/useRealTimeGames";
 import useRealTimeMembers from "@/components/hooks/useRealTimeMembers";
@@ -25,7 +26,7 @@ const Game = () => {
   }, [userId, membersInfoList, realtimeGamesInfo]);
 
   if (!isLogin) {
-    return <div></div>;
+    return <Loading />;
   }
 
   return (
