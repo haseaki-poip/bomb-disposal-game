@@ -6,5 +6,5 @@ export type GamesInfoType = {
   result: CardType;
   release_num: number;
   success_num: number;
-  winner?: RoleType;
+  winner: RoleType | "";
 };

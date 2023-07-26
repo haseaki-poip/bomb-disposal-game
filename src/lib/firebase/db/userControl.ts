@@ -2,6 +2,7 @@ import { ref, update, set, push, get, child } from "firebase/database";
 import { realtimeDB } from "../firebase";
 import { CustomError } from "../../error";
 import { MembersInfoListType } from "@/types/users";
+import { CardType } from "@/types/games";
 
 // Userをroomから削除
 export const deleteUserInfo = async (roomId: string, userId: number) => {
