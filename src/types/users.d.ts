@@ -1,9 +1,10 @@
-import type { CardType } from "./games";
+import type { CardType, RoleType } from "./games";
 
 export type UserInfoType = {
   user_name: string;
   user_type: string;
-  role?: "bomber" | "polis";
+  role?: RoleType;
+  my_cards?: CardType[];
   hidden_cards?: CardType[];
   show_cards?: CardType[];
 };

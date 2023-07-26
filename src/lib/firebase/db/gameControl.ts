@@ -4,7 +4,7 @@ import { CustomError } from "../../error";
 import { MembersInfoListType, UserInfoType } from "@/types/users";
 import { RoomsInfoType } from "@/types/rooms";
 import { DBType } from "@/types/db";
-import { CardType, GamesInfoType } from "@/types/games";
+import { CardType, GamesInfoType, RoleType } from "@/types/games";
 
 // カードのリストを人数分に分けた二次元配列にする
 const splitArrayIntoChunks = (array: string[], chunkSize: number) => {
@@ -63,10 +63,10 @@ export const startGame = async (roomId: string) => {
   const splitedCardsList = splitArrayIntoChunks(
     cardsList,
     membersNum >= 3 ? 5 : 8
-  );
+  ) as CardType[][];
 
   // ボマーとなるuserIdを決定
-  const roleList = (() => {
+  const roleList: RoleType[] = (() => {
     switch (membersNum) {
       case 2:
         return ["polis", "bomber"];
@@ -110,8 +110,9 @@ export const startGame = async (roomId: string) => {
         ...membersInfo,
         role: roleList[userId],
         hidden_cards: splitedCardsList[userId],
+        my_cards: splitedCardsList[userId],
         show_cards: [],
-      };
+      } satisfies UserInfoType;
     }
   );
 
