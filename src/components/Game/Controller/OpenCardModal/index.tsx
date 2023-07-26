@@ -67,7 +67,9 @@ const OpenCardModal = memo(({ membersInfoList, userId, closeModal }: Props) => {
           <p className="ml-8 text-sm text-game-gray">手持ちカード</p>
           <div className="mt-2 px-6 pb-5 w-full overflow-x-auto flex justify-start">
             {[
-              ...Array(membersInfoList[selectedUserId].hidden_cards?.length),
+              ...Array(
+                membersInfoList[selectedUserId].hidden_cards?.length ?? 0
+              ),
             ].map((_, key) => (
               <div
                 key={key}

@@ -87,17 +87,19 @@ const Controller = memo(({ membersInfoList, gamesInfo, userId }: Props) => {
                     />
                   );
                 })}
-                {[...Array(memberInfo.hidden_cards?.length)].map((_, key) => {
-                  return (
-                    <Image
-                      key={key}
-                      src="/svg/questionmark.svg"
-                      alt="card"
-                      width={32}
-                      height={32}
-                    />
-                  );
-                })}
+                {[...Array(memberInfo.hidden_cards?.length ?? 0)].map(
+                  (_, key) => {
+                    return (
+                      <Image
+                        key={key}
+                        src="/svg/questionmark.svg"
+                        alt="card"
+                        width={32}
+                        height={32}
+                      />
+                    );
+                  }
+                )}
               </div>
             </div>
           ))}
