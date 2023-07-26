@@ -2,7 +2,7 @@ import Image from "next/image";
 import { memo } from "react";
 
 // eslint-disable-next-line react/display-name
-const ShareButton = memo((roomId: { roomId: string }) => {
+const ShareButton = memo(({ roomId }: { roomId: string }) => {
   const shareRoomId = () => {
     const waitingRoomUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/login?roomId=${roomId}`;
     const shareText = `Bomb Disposalゲームへの招待です。\nroom id: ${roomId}\n以下のURLにアクセスしてください。\n${waitingRoomUrl}`;
