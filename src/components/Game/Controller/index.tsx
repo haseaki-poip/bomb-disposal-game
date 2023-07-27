@@ -48,7 +48,7 @@ const Controller = memo(({ membersInfoList, gamesInfo, userId }: Props) => {
         </div>
         <div className="mt-12 w-11/12">
           <p className="text-sm text-game-gray">解除チップ</p>
-          <div className="mt-2 px-4 w-full h-20 bg-white rounded-lg drop-shadow-md flex items-center overflow-x-auto">
+          <div className="mt-2 pl-4 pr-10 w-full h-20 bg-white rounded-lg drop-shadow-md flex items-center overflow-x-auto">
             {[...Array(gamesInfo.success_num)].map((_, key) => (
               <div
                 key={key}

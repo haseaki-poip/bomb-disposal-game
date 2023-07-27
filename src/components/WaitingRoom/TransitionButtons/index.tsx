@@ -25,6 +25,10 @@ const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
   // 退出処理
   const leavingRoomPropcess = () => {
     try {
+      // ポップアップで確認
+      if (!confirm("本当にルームを退出しますか？")) {
+        return;
+      }
       deleteUserInfoInRoom(roomId as string, userId);
       dispatch(setUserId(null));
       router.push("/login");
@@ -41,6 +45,12 @@ const TransitionButtons = memo(({ userId, roomId, userInfo }: Props) => {
   // ルーム終了処理
   const finishGameProcess = async () => {
     try {
+      // ポップアップで確認
+      if (
+        !confirm("本当にルームを削除しますか？メンバー全員が退出されます。")
+      ) {
+        return;
+      }
       finishGame(roomId);
     } catch (e) {
       if (e instanceof CustomError) {

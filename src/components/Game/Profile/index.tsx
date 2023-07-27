@@ -22,9 +22,12 @@ const Profile = memo(({ userInfo }: { userInfo: UserInfoType }) => {
             height={80}
           />
         </div>
-        <div className="py-5 w-full h-full flex flex-col items-center">
+        <div className="pb-5 w-full h-full flex flex-col items-center">
+          <div className="text-xl text-game-gray font-bold">
+            {userInfo.user_name}
+          </div>
           <div
-            className={`${roleInfo.roleTextColorClass} text-center text-4xl font-bold`}
+            className={`${roleInfo.roleTextColorClass} text-center text-4xl font-bold mt-5`}
           >
             {roleInfo.roleName}
           </div>
